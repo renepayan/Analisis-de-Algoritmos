@@ -1,22 +1,14 @@
 \documentclass[spanish]{article}
-\usepackage[english]{babel}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage[utf8]{inputenc}
 \usepackage{ragged2e}
 \usepackage{geometry}
-\usepackage{fancyhdr}
-\documentclass[conference]{IEEEtran}
-\usepackage[style = ieee, urldate =comp]{biblatex}
-\usepackage{xpatch}
-\usepackage{url}
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{float}
+\usepackage[table,xcdraw]{xcolor}
 \title {Práctica 1: Determinación experimental de la complejidad de un algoritmo}
+\graphicspath{{../img/}}
 \addtolength{\textheight}{1.5in} 
 \begin{document}
-	\centerline{\includegraphics[width=450px,height=100px]{../img/header}}
+	\centerline{\includegraphics[width=450px,height=100px]{header}}
 	\centerline{Analisis de algoritmos, Sem: 2021-1, 3CV1,Práctica  2, 27/10/2020}
 	\centering{\huge{Práctica 2: Funciones Recursivas vs Iterativas}}
 	\centerline{\newline{\textbf{Bejar Valencia Angel Ivan,Payán Téllez René}}}
@@ -45,12 +37,136 @@
 	Los algoritmos   recursivos   se   basan   en   la   metodología   de   llamar   repetidamente  la  propia  función  en  que  están  definidos,  y  son  de  gran  utilidad  en  multitud de campos en la informática.[3]\\
 	La solución de un algoritmo recursivo comienza a atacar un problema tomando un problema grande y lo va dividiendo hasta llegar a problemas más pequeños que son sencillos o triviales de resolver. Una vez que llega a estos problemas más pequeños, vuelve por donde llegó y comienza a combinar las soluciones entre si para obtener la solución al problema más grande.[4]
 	\section{Experimentacion y Resultados}
-	\section{Conclusiones}
-	\section{Anexo}
-	\section{Bibliografia}
-	(1)https://openwebinars.net/blog/que-es-un-algoritmo-informatico/
-	(2)https://medium.com/@joseguillermo_/qu%C3%A9-es-la-complejidad-algor%C3%ADtmica-y-con-qu%C3%A9-se-come-2638e7fd9e8c
-	(3) https://rsanchezs.gitbooks.io/ciencia-de-datos-con-r/content/estructuras_control/iterativas/estructuras_iterativas.html
-	(4) http://formacion.desarrollando.net/cursosfiles/formacion/curso_454/deda-03.pdf
-	(5) https://thatcsharpguy.com/tv/recursion-iteracion/
+		\subsection{Producto}
+			De la primer seccion de problemas se decidio iterar sobre todos los n y m posibles desde 0 hasta 1000.\\
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=400px,height=200px]{ejecucionPrimeraParte}
+				\caption{Ejecucion del programa que contiene las tres primeras funciones}
+			\end{figure}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica1}
+				\caption{N contra Operaciones de la primer funcion}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica2}
+				\caption{N contra Operaciones de la segunda funcion}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica3}
+				\caption{N contra Operaciones de la tercer funcion}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica4}
+				\caption{N contra Operaciones de las 3 funciones combinadas}
+			\end{figure}
+			Al terminar se determino que el número de operaciones solo se ve afectado por "n", no por "m", por lo que se decidio graficar solo dichos valores.\\
+			Tambien podemos observar que de las 3 funciones, la función número 2 es la mas optima y la numero 1 la menos optima.\\
+			De forma Experimental podemos concluir lo siguiente:
+			\begin{table}[H]
+				\begin{tabular}{|l|l|l|l|}
+					\hline
+					\rowcolor[HTML]{FFFE65} 
+					\multicolumn{1}{|c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Funcion}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Peor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Mejor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Orden de complejidad}}} \\ \hline
+					1                                                                                     & n\textgreater{}0                                                                            & $n=0$                                                                                          & $O(3*n)                                                                                           $ \\ \hline
+					2                                                                                     & n\textgreater{}0 y n\%2!=0                                                                  & $n=0$                                                                                          & $O(5log_2(n+1))$                                                                                   \\ \hline
+					3                                                                                     & n=0 (Nunca termina), n\textgreater{}1 para todo lo demas                                    & $n=1$                                                                                          & $O(2*n)$                                                                                            \\ \hline					
+				\end{tabular}
+				\caption{Resultados obtenidos a partir del analisis a posteriori}
+			\end{table}
+		\subsection{Cociente}
+		\section{Conclusiones}
+		\section{Anexo}
+			\subsection{Producto}
+				\subsection*{Función 1}
+					De esta función podemos analizar que su peor escenario es cuando: $n>0$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=0$.\\
+					Posteriormente se realizo el analisis a priori:\\
+					\begin{center}
+						\begin{table}[H]
+							\begin{tabular}{|l|l|l|}
+								\hline
+								\rowcolor[HTML]{FFCC67} 
+								Codigo                           & Costo & Veces ejecutado \\ \hline
+								\textit{r = 0}                    & $C_1$    & 1               \\ \hline
+								\textit{while(n\textgreater{}0)} & $C_2$    & n+1             \\ \hline
+								\textit{\  \  r = r+m}                 & $C_3$    & n               \\ \hline
+								\textit{\  \  n--}                     & $C_4$    & n               \\ \hline
+								\textit{return r}                & $C_5$    & 1               \\ \hline
+							\end{tabular}
+						\end{table}						
+							$T(n) = C_1+(n+1)C_2+n(C_3+C_4)+C_5$\\							
+							$T(n) = n(C_2+C_3+C_4)+C_1+C_2+C_5$\\							
+							$T(n) \in \Omega(1)$\\							
+							$T(n) \in \O(n)$\\
+					\end{center}
+				\subsection*{Función 2}
+					De esta función podemos analizar que su peor escenario es cuando: $n>0$ y $n$ no sea par (ejecuta el ciclo una vez mas), ya que a partir de este punto se comportara de forma logaritmica. Mientras que su mejor escenario es cuando $n=0$.\\
+					Posteriormente se realizo el analisis a priori:\\
+					\begin{center}
+							\begin{table}[H]
+								\begin{tabular}{|l|l|l|}
+									\hline
+									\rowcolor[HTML]{FFCC67} 
+									Codigo                           & Costo & Veces ejecutado \\ \hline
+									\textit{r =0}                    & $C_1$    & 1               \\ \hline
+									\textit{while(n\textgreater{}0)} & $C_2$    & $log_2(n)+1$       \\ \hline
+									\textit{\  \  if(n \& 1)}              & $C_3$    & $log_2(n)$         \\ \hline
+									\textit{\  \  \  \  r = r+m}                 & $C_4$    & $log_2(n)/2$       \\ \hline
+									\textit{\  \  m=2*m}                            & $C_5$    & $log_2(n)$         \\ \hline
+									\textit{\  \  n=n/2}                            & $C_6$    & $log_2(n)$         \\ \hline
+									\textit{return r}                & $C_7$    & 1               \\ \hline
+								\end{tabular}
+							\end{table}
+								$T(n) = C_1 + C_2(log_2(n)+1) + C_4(\frac{log_2(n)}{2}) + log_2(n)(C_5+C_6+C_3) + C_7$
+								$T(n) = log_2(C_2+C_5+C_6+C_7) + C_4\frac{log_2(n)}{2} + C_1 + C_7$
+								$T(n) = log_2(C_2+\frac{C_4}{2}+C_5+C_6+C_7) + C_1 + C_7$\\
+								$T(n) \in \Omega(1)$\\
+								$T(n) \in \O(log_2(n))$
+					\end{center}
+				\subsection*{Función 3}
+					De esta función podemos analizar que su peor escenario es cuando: $n>1$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=1$.\\
+					\textbf{Nota: debido a la forma de la implementacion cuando n $<$ 1 el algoritmo no termina}
+					Posteriormente se realizo el analisis a priori:\\
+					\begin{center}
+						\begin{table}[H]
+							\begin{tabular}{|l|l|l|}
+								\hline
+								\rowcolor[HTML]{FFCC67} 
+								Codigo                               & Costo & Veces ejecutado \\ \hline
+								\textit{if b == 1}                   & $C_1$   & n               \\ \hline
+								\textit{\  \  return 1}              & $C_2$   & 1               \\ \hline
+								\textit{else}                        & 0     &                 \\ \hline
+								\textit{\  \  return a+prod3(a,b-1)} & $C_4$   & n-1             \\ \hline
+							\end{tabular}
+						\end{table}
+						$T(n) = C_1(n) + C_2 + C_3(n-1)$\\
+						$T(n) = n(C_1+C_3) + C_2 - C_3$\\
+						$T(n) \in \Omega(1)$\\
+						$T(n) \in \O(n)$
+					\end{center}
+				\subsection*{Comparacion}
+				Despues de obtener la complejidad a priori y a posteriori de las 3 funciones, se concluye que la funcion 2 es la mas optima y el algoritmo número 1 es el menos optimo.
+				% Please add the following required packages to your document preamble:
+				% \usepackage[table,xcdraw]{xcolor}
+				% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+				\begin{table}[H]
+					\begin{tabular}{|l|l|l|}
+						\hline
+						\rowcolor[HTML]{FFCC67} 
+						Funcion & Calculo a priori & Calculo a posteriori \\ \hline
+						\rowcolor[HTML]{FE0000} 
+						1       & $O(n)$           & $O(3n)$              \\ \hline
+						\rowcolor[HTML]{32CB00} 
+						2       & $O(log_2(n))$    & $O(5log_2(n+1))$     \\ \hline
+						\rowcolor[HTML]{F8FF00} 
+						3       & $O(n)$           & $O(2n)$              \\ \hline
+					\end{tabular}
+				\end{table}
+			\subsection*{Cociente}
+		\section{Bibliografia}
+
 \end{document}
