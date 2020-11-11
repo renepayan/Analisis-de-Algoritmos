@@ -5,6 +5,7 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage[ruled,vlined]{algorithm2e}
 \title {Práctica 1: Determinación experimental de la complejidad de un algoritmo}
 \graphicspath{{../img/}}
 \addtolength{\textheight}{1.5in} 
@@ -17,7 +18,7 @@
 	\bigskip
 	\justify
 	\textbf{Resumen:}	
-	En esta practica se compararan algoritmos cuya complejidad es polinomial (es decir esta acotada por un polinomio definido por "n") y algoritmos no polinomiales (es decir que no estan acotados por un polinomio).
+	En esta practica se compararan algoritmos cuya complejidad es polinomial (es decir esta acotada por un polinomio definido por "n") y algoritmos no polinomiales (es decir que no estan acotados por un polinomio).\\
 	\textbf{Palabras clave:}
 	Polinomial,No polinomial,Complejidad,C/C++
 	\section{Introduccion}
@@ -31,277 +32,185 @@
 	Así que, por su naturaleza, un problema tiene la capacidad de ser solucionado por uno o varios métodos, pero si bien es importante llegar a la respuesta, más importante es evaluar su viabilidad. Siempre que se analiza y evalúa adecuadamente la efectividad de una solución, disminuye drásticamente el costo que representa su producción y mantenimiento, pues los recursos que se invierten posteriormente en codificación, pruebas y revisión es mucho menor siempre (como el tiempo, dinero y talento humano).	
 	Entrando en materia, la complejidad algorítmica es una métrica teórica que nos ayuda a describir el comportamiento de un algoritmo en términos de tiempo de ejecución (tiempo que tarda un algoritmo en resolver un problema) y memoria requerida (cantidad de memoria necesaria para procesar las instrucciones que solucionan dicho problema). Esto nos ayuda a comparar entre la efectividad de un algoritmo y otro, y decidir cuál es el que nos conviene implementar.[2]
 	\subsection{Algoritmo Polinomial}
-
+	En computación, cuando el tiempo de ejecución de un algoritmo (mediante el cual se obtiene una solución al problema) es menor que un cierto valor calculado a partir del número de variables implicadas (generalmente variables de entrada) usando una fórmula polinómica, se dice que dicho problema se puede resolver en un tiempo polinómico.[3]	
 	\subsection{Algoritmo No Polinomial}
-
+	En teoría de la complejidad computacional, NP es el acrónimo en inglés de nondeterministic polynomial time ("tiempo polinomial no determinista"). Es el conjunto de problemas que pueden ser resueltos en tiempo polinómico por una máquina de Turing no determinista.[4]
+	La importancia de esta clase de problemas de decisión es que contiene muchos problemas de búsqueda y de optimización para los que se desea saber si existe una cierta solución o si existe una mejor solución que las conocidas. En esta clase están el problema del viajante (también llamado "problema del viajante de comercio" o "problema del agente viajero") donde se quiere saber si existe una ruta óptima que pasa por todos los nodos en un cierto grafo y el problema de satisfacibilidad booleana en donde se desea saber si una cierta fórmula de lógica proposicional puede ser cierta para algún conjunto de valores booleanos para las variables.[4]
+	\subsection{Sucesión de Fibonacci}
+	Esta sucesión fue descrita por Fibonacci como la solución a un problema de cría de conejos: “Cierto hombre tiene una pareja de conejos juntos en un lugar cerrado y desea saber cuántos son creados a partir de este par en un año cuando, de acuerdo a su naturaleza, cada pareja necesita un mes para envejecer y cada mes posterior procrea otra pareja”[5]
+	\subsection*{Solucion iterativa para encontrar el termino $N$ en la secuencia de fibonacci}
+	\begin{algorithm}[H]
+		\KwData{Entrada: N}
+		\KwResult{Retorna el N-esimo termino de la serie de fibonacci}
+		a=0\;
+  	    b=0\;
+  	    c=0\;
+		\For{$i\gets1$ \KwTo $N$}{
+			c = a\;
+			a = b\;
+			b += c\;
+		}
+		return a\;
+		\caption{Solucion iterativa}
+	\end{algorithm}
+	\subsection*{Solucion recursiva para encontrar el termino $N$ en la secuencia de fibonacci}
+	\begin{algorithm}[H]
+		\KwData{Entrada: N}
+		\KwResult{Retorna el N-esimo termino de la serie de fibonacci}
+		\If{$N$ = 0}{
+			return 0\;		
+		}
+		\ElseIf{$N$ = 1}{
+			return 1\;
+		}
+		\Else{
+			return 	solucionRecursiva($N$-1)+solucionRecursiva($N$-2);
+		}
+		\caption{Solucion recursiva}
+	\end{algorithm}
+	\subsection{Número perfecto}
+	Si hablamos de números, un número perfecto es aquél que es igual a la suma de sus divisores, exceptuando él mismo (estos divisores que no incluyen al mismo número son los que se conocen como factores o divisores propios).[6]
+	\subsection{Algoritmo para determinar si un número N es perfecto}
+	\begin{algorithm}[H]
+		\KwData{Entrada: N}
+		\KwResult{Retorna 1 si el número es perfecto, en otro caso retorna 0}
+		raiz $\gets\sqrt{N}$\;
+		suma $\gets$ 1\;	
+		\For{$i\gets2$ \KwTo raiz}{
+			\If{n mod i = 0}{
+				suma $\gets$ suma + i\;
+				\If{$n/i > raiz$}{
+					suma $\gets$ suma + n/i\;
+				}
+			}	
+		}	
+		\If{suma == $N$}{
+			return 1\;		
+		}
+		\Else{
+			return 0\;
+		}
+		\caption{Perfecto(N)}
+	\end{algorithm}	
+	\subsection{Algoritmo para mostrar los primeros N números perfectos}
+	\begin{algorithm}[H]
+		\KwData{Entrada: N}
+		\KwResult{Imprime los primeros N números perfectos}
+		i $\gets$6\;
+		\While{$N>$0}{
+			\If{Perfecto(i) = 1}{
+				Imprimir(i)\;
+				$N$$\gets$$N$-1\;
+			}	
+		}	
+		\caption{MuestraPerfectos(N)}
+	\end{algorithm}
+	La complejidad de la funcion puede reducirse por la propiedad de los números perfectos de que estos son iguales a: $(\frac{2^p}{p})(2^p-1)$, por lo tanto si se logra reducir la complejidad para obtener números primos, se reduce la complejidad para obtener números perfectos, uno de los métodos mas rapidos conocidos es la criba de Eratostenes.\\
+	El matemático griego Eratóstenes ( siglo III a.C.) ideó una manera rápida de obtener todos los números primos hasta uno concreto. Se trata de un procedimiento denominado Criba de Eratóstenes, que veremos cómo funciona encontrando todos los números primos entre 1 y 100.Teniendo todos los números en una tabla, se trata de ir buscando los que sean múltiplos de algún número y por tanto sean compuestos, para descartarlos como primos. Los números que nos queden sin descartar, serán declarados números primos. La criba de Eratóstenes se para en el momento en que el cuadrado del número a investigar es mayor que el último número de la lista.[7]
 	\section{Experimentacion y Resultados}
-		\subsection{1.  Implementar la sucecion de Fibonacci mediante un algoritmo recursivo y mediante unalgoritmo iterativo.}
-			De la primer seccion de problemas se decidio iterar sobre todos los n y m posibles desde 0 hasta 1000.\\
+		\subsection{Implementar la sucecion de Fibonacci mediante un algoritmo recursivo y mediante unalgoritmo iterativo.}
+			Se ejecuto el programa para encontrar los primeros 40 terminos de la sucesion de fibonacci con ambos algoritmos.			
 			\begin{figure}[h!]
 				\centering
 				\includegraphics[width=400px,height=200px]{ejecucionPrimeraParte}
-				\caption{Ejecucion del programa que contiene las tres primeras funciones}
+				\caption{Ejecucion del programa con ambos algoritmos, imprime $N$ y el resultado de ambas implementaciones}
 			\end{figure}
-			\begin{figure}[h!]
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=200px]{cpu}
+				\caption{Como adicional, conforme aumentaba el valor del "limite", se incrementaba el tiempo que tardaba en terminar y el uso de CPU}
+			\end{figure}
+			\begin{figure}[H]
 				\centering
 				\includegraphics[width=400px,height=300px]{grafica1}
-				\caption{N contra Operaciones de la primer funcion}
+				\caption{N contra Operaciones de la solucion iterativa}
 			\end{figure}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=400px,height=300px]{grafica2}
-				\caption{N contra Operaciones de la segunda funcion}
+				\caption{N contra Operaciones de la solucion recursiva}
 			\end{figure}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=400px,height=300px]{grafica3}
-				\caption{N contra Operaciones de la tercer funcion}
+				\caption{N contra Operaciones de las dos implementaciones}
 			\end{figure}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=400px,height=300px]{grafica4}
-				\caption{N contra Operaciones de las 3 funciones combinadas}
-			\end{figure}
-			Al terminar se determino que el número de operaciones solo se ve afectado por "n", no por "m", por lo que se decidio graficar solo dichos valores.\\
-			Tambien podemos observar que de las 3 funciones, la función número 2 es la mas optima y la numero 1 la menos optima.\\
-			De forma Experimental podemos concluir lo siguiente:
-			\begin{table}[H]
-				\begin{tabular}{|l|l|l|l|}
-					\hline
-					\rowcolor[HTML]{FFFE65} 
-					\multicolumn{1}{|c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Funcion}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Peor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Mejor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Orden de complejidad}}} \\ \hline
-					1                                                                                     & n\textgreater{}0                                                                            & $n=0$                                                                                          & $O(3*n)                                                                                           $ \\ \hline
-					2                                                                                     & n\textgreater{}0 y n\%2!=0                                                                  & $n=0$                                                                                          & $O(5log_2(n+1))$                                                                                   \\ \hline
-					3                                                                                     & n=0 (Nunca termina), n\textgreater{}1 para todo lo demas                                    & $n=1$                                                                                          & $O(2*n)$                                                                                            \\ \hline					
-				\end{tabular}
-				\caption{Resultados obtenidos a partir del analisis a posteriori}
-			\end{table}
-		\subsection{Cociente}
-			De la segunda seccion de problemas se decidio iterar sobre todos los n y div posibles desde 1 hasta 1000.\\
-			\begin{figure}[h!]
-				\centering
-				\includegraphics[width=400px,height=200px]{ejecucionSegundaParte}
-				\caption{Ejecucion del programa que contiene las tres segundas funciones}
-			\end{figure}
-			\begin{figure}[h!]
-				\centering
-				\includegraphics[width=400px,height=300px]{grafica5}
-				\caption{N contra Operaciones de la primer funcion}
-			\end{figure}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=400px,height=300px]{grafica6}
-				\caption{N contra Operaciones de la segunda funcion}
-			\end{figure}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=400px,height=300px]{grafica7}
-				\caption{N contra Operaciones de la tercer funcion}
-			\end{figure}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=400px,height=300px]{grafica8}
-				\caption{N contra Operaciones de las 3 funciones combinadas}
-			\end{figure}
-			Al terminar se determino que el número de operaciones solo se ve afectado por "n", no por "div", por lo que se decidio graficar solo dichos valores.\\
-			Tambien podemos observar que de las 3 funciones, la función número 2 es la mas optima y la numero 1 la menos optima.\\
-			De forma Experimental podemos concluir lo siguiente:
-			\begin{table}[H]
-				\begin{tabular}{|l|l|l|l|}
-					\hline
-					\rowcolor[HTML]{FFFE65} 
-					\multicolumn{1}{|c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Funcion}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Peor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Mejor escenario}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFE65}{\color[HTML]{000000} \textbf{Orden de complejidad}}} \\ \hline
-					1                                                                                     & n\textgreater{}0                                                                            & $n=0$                                                                                          & $O(3*n/100)                                                                                           $ \\ \hline
-					2                                                                                     & n\textgreater{}0 y n\%2!=0                                                                  & $n=0$                                                                                          & $O(log_2(n+1)/100)$                                                                                   \\ \hline
-					3                                                                                     & n>0                                    & $n=1$                                                                                          & $O(2*n/100)$                                                                                            \\ \hline					
-				\end{tabular}
-				\caption{Resultados obtenidos a partir del analisis a posteriori}
-			\end{table}
-		\section{Conclusiones}			
-			\subsection{Payán Téllez René}
-			Puedo concluir que despues de haber realizado los analisis practicos y teoricos de los seis algoritmos, el hecho de que un algoritmo sea recursivo, puede no ser necesariamente un indicador de su complejidad de forma directo, o ser una señal directa de que ese algoritmo es el mas optimo. Por ejemplo en ambos escenarios el algoritmo mas optimos termino siendo un algoritmo iterativo, que aunque aclaro los algoritmos recursivos fueron mejores que su contraparte iterativa, pero aun asi, lo que determino cual fue el mejor algoritmo, es aquel que pudiera optimizar mejor los recursos dados y solventar de forma mas ingeniosa el problema planteado.\\
-			\includegraphics[height=120px,width=120px]{Rene}
-		\section{Anexo}
-			\subsection{Producto}
-				\subsection*{Función 1}
-					De esta función podemos analizar que su peor escenario es cuando: $n>0$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=0$.\\
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-						\begin{table}[H]
-							\begin{tabular}{|l|l|l|}
-								\hline
-								\rowcolor[HTML]{FFCC67} 
-								Codigo                           & Costo & Veces ejecutado \\ \hline
-								\textit{r = 0}                    & $C_1$    & 1               \\ \hline
-								\textit{while(n\textgreater{}0)} & $C_2$    & n+1             \\ \hline
-								\textit{\  \  r = r+m}                 & $C_3$    & n               \\ \hline
-								\textit{\  \  n--}                     & $C_4$    & n               \\ \hline
-								\textit{return r}                & $C_5$    & 1               \\ \hline
-							\end{tabular}
-						\end{table}						
-							$T(n) = C_1+(n+1)C_2+n(C_3+C_4)+C_5$\\							
-							$T(n) = n(C_2+C_3+C_4)+C_1+C_2+C_5$\\							
-							$T(n) \in \Omega(1)$\\							
-							$T(n) \in \O(n)$\\
-					\end{center}
-				\subsection*{Función 2}
-					De esta función podemos analizar que su peor escenario es cuando: $n>0$ y $n$ no sea par (ejecuta el ciclo una vez mas), ya que a partir de este punto se comportara de forma logaritmica. Mientras que su mejor escenario es cuando $n=0$.\\
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-							\begin{table}[H]
-								\begin{tabular}{|l|l|l|}
-									\hline
-									\rowcolor[HTML]{FFCC67} 
-									Codigo                           & Costo & Veces ejecutado \\ \hline
-									\textit{r =0}                    & $C_1$    & 1               \\ \hline
-									\textit{while(n\textgreater{}0)} & $C_2$    & $log_2(n)+1$       \\ \hline
-									\textit{\  \  if(n \& 1)}              & $C_3$    & $log_2(n)$         \\ \hline
-									\textit{\  \  \  \  r = r+m}                 & $C_4$    & $log_2(n)/2$       \\ \hline
-									\textit{\  \  m=2*m}                            & $C_5$    & $log_2(n)$         \\ \hline
-									\textit{\  \  n=n/2}                            & $C_6$    & $log_2(n)$         \\ \hline
-									\textit{return r}                & $C_7$    & 1               \\ \hline
-								\end{tabular}
-							\end{table}
-								$T(n) = C_1 + C_2(log_2(n)+1) + C_4(\frac{log_2(n)}{2}) + log_2(n)(C_5+C_6+C_3) + C_7$
-								$T(n) = log_2(C_2+C_5+C_6+C_7) + C_4\frac{log_2(n)}{2} + C_1 + C_7$
-								$T(n) = log_2(C_2+\frac{C_4}{2}+C_5+C_6+C_7) + C_1 + C_7$\\
-								$T(n) \in \Omega(1)$\\
-								$T(n) \in \O(log_2(n))$
-					\end{center}
-				\subsection*{Función 3}
-					De esta función podemos analizar que su peor escenario es cuando: $n>1$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=1$.\\
-					\textbf{Nota: debido a la forma de la implementacion cuando n $<$ 1 el algoritmo no termina}
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-						\begin{table}[H]
-							\begin{tabular}{|l|l|l|}
-								\hline
-								\rowcolor[HTML]{FFCC67} 
-								Codigo                               & Costo & Veces ejecutado \\ \hline
-								\textit{if b == 1}                   & $C_1$   & n               \\ \hline
-								\textit{\  \  return 1}              & $C_2$   & 1               \\ \hline
-								\textit{else}                        & 0     &                 \\ \hline
-								\textit{\  \  return a+prod3(a,b-1)} & $C_4$   & n-1             \\ \hline
-							\end{tabular}
-						\end{table}
-						$T(n) = C_1(n) + C_2 + C_3(n-1)$\\
-						$T(n) = n(C_1+C_3) + C_2 - C_3$\\
-						$T(n) \in \Omega(1)$\\
-						$T(n) \in \O(n)$
-					\end{center}
-				\subsection*{Comparacion}
-				Despues de obtener la complejidad a priori y a posteriori de las 3 funciones, se concluye que la funcion 2 es la mas optima y el algoritmo número 1 es el menos optimo.
-				% Please add the following required packages to your document preamble:
-				% \usepackage[table,xcdraw]{xcolor}
-				% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+			Ahora procedemos a calcular formalmente la complejidad de la implementacion iterativa
+			Empezamos calculando la complejidad temporal de cada linea:
+			\begin{center}
 				\begin{table}[H]
 					\begin{tabular}{|l|l|l|}
 						\hline
 						\rowcolor[HTML]{FFCC67} 
-						Funcion & Calculo a priori & Calculo a posteriori \\ \hline
-						\rowcolor[HTML]{FE0000} 
-						1       & $O(n)$           & $O(3n)$              \\ \hline
-						\rowcolor[HTML]{32CB00} 
-						2       & $O(log_2(n))$    & $O(5log_2(n+1))$     \\ \hline
-						\rowcolor[HTML]{F8FF00} 
-						3       & $O(n)$           & $O(2n)$              \\ \hline
+						Codigo                           & Costo & Veces ejecutado \\ \hline
+						\textit{a = 0}                    & $\O(1)$    & 1               \\ \hline
+						\textit{b = 0}                    & $\O(1)$    & 1               \\ \hline
+						\textit{c = 0}                    & $\O(1)$    & 1               \\ \hline						
+						\textit{for(i=0;i$\leq$n;i++)} & $\O(n)$    & n+2             \\ \hline
+						\textit{\  \  c = a}                 & $\O(1)$    & n               \\ \hline
+						\textit{\  \  a = b}                     & $\O(1)$    & n+1               \\ \hline
+						\textit{\  \  b += c}                     & $\O(1)$    & n+1               \\ \hline
+						\textit{return a}                & $\O(1)$    & 1               \\ \hline
 					\end{tabular}
-				\end{table}
-			\subsection*{Cociente}
-				\subsection*{Función 1}
-					De esta función podemos analizar que su peor escenario es cuando: $n>0$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=0$.\\
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-						\begin{table}[H]
-							\begin{tabular}{|l|l|l|}
-								\hline
-								\rowcolor[HTML]{FFCC67} 
-								Codigo                           & Costo & Veces ejecutado \\ \hline
-								\textit{q = 0}                    & $C_1$    & 1               \\ \hline
-								\textit{while(n\textgreater{}0)} & $C_2$    & n+1             \\ \hline
-								\textit{\  \  n = n-div}                 & $C_3$    & n               \\ \hline
-								\textit{\  \  q++}                     & $C_4$    & n               \\ \hline
-								\textit{*r = n}                & $C_5$    & 1               \\ \hline
-								\textit{return q}                & $C_6$    & 1               \\ \hline
-							\end{tabular}
-						\end{table}						
-						$T(n) = C_1+(n+1)C_2+n(C_3+C_4)+C_5+C_6$\\							
-						$T(n) = n(C_2+C_3+C_4)+C_1+C_2+C_5+C_6$\\							
-						$T(n) \in \Omega(1)$\\							
-						$T(n) \in \O(n)$\\
-					\end{center}
-					\subsection*{Función 2}
-					De esta función podemos analizar que su peor escenario es cuando: $n>0$ y $n$ no sea par (ejecuta el ciclo una vez mas), ya que a partir de este punto se comportara de forma logaritmica. Mientras que su mejor escenario es cuando $n=0$.\\
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-						\begin{table}[H]
-							\begin{tabular}{|l|l|l|}
-								\hline
-								\rowcolor[HTML]{FFCC67} 
-								Codigo                           & Costo & Veces ejecutado \\ \hline
-								\textit{dd = div}                    & $C_1$    & 1               \\ \hline
-								\textit{q = 0}                    & $C_2$    & 1               \\ \hline
-								\textit{*r = n}                    & $C_3$    & 1               \\ \hline
-								\textit{while(d$\leq$n)} & $C_4$    & $log_2(n)+1$       \\ \hline
-								\textit{\  \  dd=2*dd}              & $C_5$    & $log_2(n)$         \\ \hline
-								\textit{while(dd$>$div)} & $C_6$    & $log_2(n)+1$       \\ \hline
-								\textit{\  \  dd=dd/2}                 & $C_7$    & $log_2(n)$       \\ \hline
-								\textit{\  \  q=2*q}                            & $C_8$    & $log_2(n)$         \\ \hline
-								\textit{\  \  if(dd$\leq$*r)}                            & $C_9$    & $log_2(n)/2+1$         \\ \hline
-								\textit{\  \  \  \  *r=*r-dd}                            & $C_{10}$    & $log_2(n)/2$         \\ \hline
-								\textit{\  \  \  \  q++}                            & $C_{11}$    & $log_2(n)/2$         \\ \hline
-								\textit{return q}                & $C_{12}$    & 1               \\ \hline
-							\end{tabular}
-						\end{table}
-						$T(n) = C_1 + C_2 + C_3 + C_4(log_2(n)+1) + C_5(log_2(n)) + C_6(log_2(n)+1)+log_2(n)(C_7+C_8)+(\frac{log_2(n)}{2}+1)(C_9)+(\frac{log_2(n)}{2})(C_{10}+C_{11})+C_{12}$\\
-						$T(n) = log_2(C_4+C_5+C_6+C_7+C_8) + C_4\frac{log_2(n)}{2} + C_1 + C_7$
-						$T(n) = log_2(C_2+\frac{C_4}{2}+C_5+C_6+C_7) + C_1 + C_7$\\
-						$T(n) \in \Omega(1)$\\
-						$T(n) \in \O(log_2(n))$
-					\end{center}
-					\subsection*{Función 3}
-					De esta función podemos analizar que su peor escenario es cuando: $n>1$, ya que a partir de este punto se comportara de forma lineal. Mientras que su mejor escenario es cuando $n=1$.\\
-					\textbf{Nota: debido a la forma de la implementacion cuando n $<$ 1 el algoritmo no termina}
-					Posteriormente se realizo el analisis a priori:\\
-					\begin{center}
-						\begin{table}[H]
-							\begin{tabular}{|l|l|l|}
-								\hline
-								\rowcolor[HTML]{FFCC67} 
-								Codigo                               & Costo & Veces ejecutado \\ \hline
-								\textit{if div>n}                   & $C_1$   & n               \\ \hline
-								\textit{\  \  return 0}              & $C_2$   & 1               \\ \hline
-								\textit{else}                        & 0     &                 \\ \hline
-								\textit{\  \  return 1+div3(n-div,div)} & $C_4$   & n-1             \\ \hline
-							\end{tabular}
-						\end{table}
-						$T(n) = C_1(n) + C_2 + C_3(n-1)$\\
-						$T(n) = n(C_1+C_3) + C_2 - C_3$\\
-						$T(n) \in \Omega(1)$\\
-						$T(n) \in \O(n)$
-					\end{center}
-					\subsection*{Comparacion}
-					Despues de obtener la complejidad a priori y a posteriori de las 3 funciones, se concluye que la funcion 2 es la mas optima y el algoritmo número 1 es el menos optimo.
-					% Please add the following required packages to your document preamble:
-					% \usepackage[table,xcdraw]{xcolor}
-					% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-					\begin{table}[H]
-						\begin{tabular}{|l|l|l|}
-							\hline
-							\rowcolor[HTML]{FFCC67} 
-							Funcion & Calculo a priori & Calculo a posteriori \\ \hline
-							\rowcolor[HTML]{FE0000} 
-							1       & $O(n)$           & $O(\frac{3n}{100})$              \\ \hline
-							\rowcolor[HTML]{32CB00} 
-							2       & $O(log_2(n))$    & $O(log_2(n+1))$     \\ \hline
-							\rowcolor[HTML]{F8FF00} 
-							3       & $O(n)$           & $O(\frac{2n}{100})$              \\ \hline
-						\end{tabular}
-					\end{table}
+				\end{table}										
+			\end{center}			
+			Lo cual nos indica que la complejidad de la solucion iterativa es lineal, es decir $T(n)\in\O(n)$. Esto lo podemos corroborar en la Figure 3 donde se puede apreciar que el numero de operaciones de la implementacion contra N crece de forma lineal.\\			
+			Por otro lado, de forma experimental podemos proponer que la complejidad de la solución recursiva es: $2^N$			
+		\subsection{Implementar las funciones Perfecto(N) y MostrarPerfectos(N)}
+			Para el segundo conjunto de funciones, se decidio buscar los primeros 4 números perfectos, y probar todos los números hasta 10 000.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=200px]{ejecucionSegundaParte}
+				\caption{Ejecucion del programa en la seccion de prueba de números}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=200px]{ejecucionTerceraParte}
+				\caption{Ejecucion del programa en la seccion de obtener N perfectos}
+			\end{figure}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica5}
+				\caption{N contra Operaciones de Perfecto(N)}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=400px,height=300px]{grafica4}
+				\caption{N contra Operaciones de MostrarPerfectos(N)}
+			\end{figure}
+			Ahora procedemos a calcular formalmente la complejidad de la funcion Perfecto(N)
+			Empezamos calculando la complejidad temporal de cada linea:
+			\begin{center}
+				\begin{table}[H]
+					\begin{tabular}{|l|l|l|}
+						\hline
+						\rowcolor[HTML]{FFCC67} 
+						Codigo                           & Costo & Veces ejecutado \\ \hline
+						\textit{raiz = sqrt(n)}                    & $\O(1)$    & 1               \\ \hline
+						\textit{suma = 1}                    & $\O(1)$    & 1               \\ \hline
+						\textit{for(i=2;i$\leq$raiz;i++)} & $\O(\sqrt{n})$    & $\sqrt{n}$+2             \\ \hline
+						\textit{\  \  if(n mod i == 0)}                 & $\O(1)$    & $\sqrt{n}$               \\ \hline
+						\textit{\  \  \  \  if(n/i > raiz)}                     & $\O(log_2(n))$    & $log_2(n)+1$              \\ \hline
+						\textit{\  \  \  \  \  \  suma += n/i}                     & $\O(1)$    & $\frac{log_2(n)}{2}$               \\ \hline
+						\textit{\  \  \  \  suma+=i}                     & $\O(1)$    & $log_2(n)$               \\ \hline
+						\textit{return (suma==n?1:0)}                & $\O(1)$    & 1               \\ \hline
+					\end{tabular}
+				\end{table}										
+			\end{center}			
+			Lo cual nos indica que la complejidad de la funcion Perfecto(n) es $\sqrt{n}$, es decir $T(n)\in\O(\sqrt{n})$. Esto lo podemos corroborar en la Figure 3 donde se puede apreciar que el numero de operaciones de la implementacion contra N crece acotado por abajo por $\sqrt(2)$ y acotado por arriba por $c\sqrt{n}$.\\			
+			Por otro lado, de forma experimental y basado en la tabla de perfectos conocidos,podemos observar que la complejidad de la funcion MostrarPerfectos(n) crece de forma exponencial debido a que el espacio entre cada perfecto es muy grande, asimismo las formas mas optimas que ocupan el calculo de un primo p, igual tienen complejidades gigantes, debido a que es dificil hallar un primo y no todos aplican para la funcion, sin mencionar que computacionalmente cuesta muchisimo trabajo hacerlo.
+			
+		\section{Conclusiones}			
+			\subsection{Payán Téllez René}
+			Esta practica se me hizo particulamente interesante porque los algoritmos que se trataron, no fueron tan directos de implementar en un lenguaje de programación, sin mencionar que algunas graficas tuvieron muy pocos valores, debido a lo complicado que era generar mas, porque computacionalmente su complejidad es inmensa. De hecho tuve que cambiar algunas variables de int a long long int en el espacio de los contadores para que siguiera funcionando el contador sin desbordarse. Tambien vi lo interesante de un algoritmo como MostrarPerfectos que tiene una complejidad no polinomial, ya que aunque lo puedo programar tardaria horas en encontrar mas alla del perfecto 5 (de por si toma mas de 5 minutos hallar el perfecto 4) sin mencionar que le tomaria dias encontrar otros números. Tambien cuando estaba demostrando la complejidad del algoritmo recursivo de la secuencia de fibonacci, algunos nucleos del CPU de mi computadora se dispararon, lo cual fue una señal de lo complicado y tardado que se podia volver en N muy grandes.\\
+			\includegraphics[height=120px,width=120px]{Rene}
+		\section{Anexo}			
 		\section{Bibliografia}
 		{[}1{]}\url{https://openwebinars.net/blog/que-es-un-algoritmo-informatico/}\\
 		{[}2{]}\url{https://medium.com/@joseguillermo_/qu%C3%A9-es-la-complejidad-algor%C3%ADtmica-y-con-qu%C3%A9-se-come-2638e7fd9e8c}\\
-		{[}3{]}\url{https://rsanchezs.gitbooks.io/ciencia-de-datos-con-r/content/estructuras_control/iterativas/estructuras_iterativas.html}\\
-		{[}4{]}\url{https://thatcsharpguy.com/tv/recursion-iteracion/}\\
-		{[}5{]}\url{http://formacion.desarrollando.net/cursosfiles/formacion/curso_454/deda-03.pdf}		
+		{[}3{]}\url{https://es.wikipedia.org/wiki/P_(clase_de_complejidad)}\\
+		{[}4{]}\url{https://es.wikipedia.org/wiki/NP_(clase_de_complejidad)}\\
+		{[}5{]}\url{https://quantdare.com/numeros-de-fibonacci/}\\
+		{[}6{]}\url{https://matematicascercanas.com/2015/03/04/numeros-perfectos/}\\
+		{[}7{]}\url{https://www.smartick.es/blog/matematicas/numeros/numeros-primos-criba-eratostenes/}\\		
 \end{document}
