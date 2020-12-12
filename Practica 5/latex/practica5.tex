@@ -11,7 +11,7 @@
 \addtolength{\textheight}{1.5in} 
 \begin{document}
 	\centerline{\includegraphics[width=450px,height=100px]{header}}
-	\centerline{Analisis de algoritmos, Sem: 2021-1, 3CV1,Práctica  3, 11/11/2020}
+	\centerline{Analisis de algoritmos, Sem: 2021-1, 3CV1,Práctica  5, 11/12/2020}
 	\centering{\huge{Práctica 5: Algoritmos Greedy}}
 	\centerline{\newline{\textbf{Payán Téllez René}}}
 	\newline{\textit{rpayant1500@alumno.ipn.mx}}
@@ -20,9 +20,10 @@
 	\textbf{Resumen:}	
 	En esta practica se analizaran 2 algoritmos que utilizan la tecnica de divide y venceras para resolver un problema, uno de ellos el quick sort y otro el sub arreglo maximo.\\
 	\textbf{Palabras clave:}
-	QuickSort,SubArreglo maximo,divide y venceras,C/C++
+	Huffman, Kruskal, Gredy, STL, C/C++
 	\section{Introduccion}
-	
+	Los algoritmos glotones, son en su mayoria utilizados para resolver problemas extremadamente complejos de forma simple de programar, normalmente no es la mejor solucion pero casi siempre bastante cercana y se programa de forma extremadamente rapida, sin mencionar que normalmente no toman mucha complejidad computacional.
+	Por ello aprender respecto a estos algoritmos es extremadamente importante, inclusive de los 2 que vamos a hablar a continuacion, ya que tienen usos tanto en redes (Huffman) como en proyectos (Kruskal).
 	\section{Conceptos Basicos}
 	\subsection{Algoritmo}
 		La palabra algoritmo proviene del sobrenombre de un matemático árabe del siglo IX, Al-Khwarizmi, que fue reconocido por enunciar paso a paso las reglas para las operaciones matemáticas básicas con decimales (suma, resta, multiplicación y división).	
@@ -42,17 +43,17 @@
 			\item No siempre garantizan alcanzar la solución óptima[4]
 		\end{itemize}
 	\subsection{Algoritmo de codificación de Huffman}
-		El código de Huffman es un tipo particular de código de prefijo óptimo que se usa comúnmente para la compresión de datos sin pérdida. Comprime los datos de manera muy efectiva, ahorrando de 20$\%$ a 90$\%$ de memoria, dependiendo de las características de los datos comprimidos. Este algoritmo se aplica solo si se considera a la entrada como una cadena de caracteres, ya que es un algoritmo boraz que utiliza una tabla que proporciona la frecuencia con la que aparece cada carácter (es decir, su frecuencia) para crear una forma óptima de representar cada carácter como una cadena binaria. Fue propuesto por David A. Huffman en 1951.[5]
+		El código de Huffman es un tipo particular de código de prefijo óptimo que se usa comúnmente para la compresión de datos sin pérdida. Comprime los datos de manera muy efectiva, ahorrando de 20$\%$ a 90$\%$ de memoria, dependiendo de las características de los datos comprimidos. Este algoritmo se aplica solo si se considera a la entrada como una cadena de caracteres, ya que es un algoritmo boraz que utiliza una tabla que proporciona la frecuencia con la que aparece cada carácter (es decir, su frecuencia) para crear una forma óptima de representar cada carácter como una cadena binaria. Fue propuesto por David A. Huffman en 1951.[5]\\
 		\begin{algorithm}[H]
 			\KwData{Entrada: C (Los caracteres de la cadena a codificar y su ocurrencia)}
 			\KwResult{Retorna el arbol de huffman de la cadena}
 			n = C.size\;
-			Q = priority\_queue();
+			Q = priority\_queue()\;
 			\For{$i\gets 0$ \KwTo $i < n$}{
-				n=node(C[i])
-				Q.push(n)
+				n=node(C[i])\;
+				Q.push(n)\;
 			}
-			\While{Q.size()>1}{
+			\While{Q.size()$>$1}{
 				Z = new node()\;
 				Z.left = x = Q.pop()\;
 				Z.right = y = Q.pop()\;
@@ -76,84 +77,39 @@
 					}
 					\Else{
 						current = current.right\;											
-					}
+					}				
+					i+=1\;
 				}
-				i+=1\;
 				retorno+=current.symbol\;
 			}
 			return retorno\;
 			\caption{HuffmanDecompression(tree, S)}
-		\end{algorithm}
-		\subsection{Algoritmos de Kruskal}
-	\begin{algorithm}[H]
-		\KwData{Entrada: A[0,...,n-1], bajo, mitad, alto}
-		\KwResult{Retorna la suma del mayor sub arreglo de la izquierda, la derecha y juntos}
-		suma\textunderscore izq=INT\textunderscore  MIN\;
-		suma=0\;
-		max{\textunderscore}izq=0\;
-		\For{$i\gets mitad\   \KwTo\   bajo$}{
-			suma+=A[i]\;
-			\If{$suma>suma\_izq$}{
-				suma{\textunderscore}izq=suma\;
-				max{\textunderscore}izq=i\;	
-			}
-		}
-		suma{\textunderscore}der=INT{\textunderscore}MIN\;
-		suma=0\;
-		max{\textunderscore}der=0\;
-		\For{$j\gets mitad\   \KwTo\   alto$}{
-			suma+=A[j]\;
-			\If{$suma>suma\_der$}{
-				suma{\textunderscore}der=suma\;
-				max{\textunderscore}der=j\;			
-			}
-		}
-		return (max{\textunderscore}izq,max{\textunderscore}der,suma{\textunderscore}der+suma{\textunderscore}izq)\;
-		\caption{MaxCrossingSubArray(A[0,...,n-1],bajo,mitad,alto)}		
-	\end{algorithm}
-	\begin{algorithm}[H]
-		\KwData{Entrada: A[0,...,n-1], bajo, alto}
-		\KwResult{retorna la suma y los indices del mayor sub arreglo, que se puede obtener dentro del arreglo A}
-		\If{alto == bajo}{
-			return(bajo,alto,A[bajo])\;
-		}
-		\Else{
-			mitad=$\frac{bajo+alto}{2}$\;
-			(bajo$\_$izq,alto$\_$izq,suma$\_$izq)=MaxSubArrayDC(A,bajo,mitad)\;
-			(bajo$\_$der,alto$\_$der,suma$\_$der)=MaxSubArrayDC(A,mitad+1,alto)\;
-			(cruz$\_$izq,cruz$\_$der,suma$\_$cruz)=MaxCrossingSubArray(A,bajo,mitad,alto)\;
-			\If{$suma\_izq>suma\_der$\ and $suma\_izq>suma\_cruz$}{
-				return (bajo$\_$izq,alto$\_$izq,suma$\_$izq)\;				
-			}\ElseIf{$suma\_der>suma\_izq$\ and $suma\_der>suma\_cruz$}{
-				return (bajo$\_$der,alto$\_$der,suma$\_$der)\;				
-			}\Else{
-				return (cruz$\_$izq,cruz$\_$der,suma$\_$cruz)\;
-			}
-		}		
-		return (max{\textunderscore}izq,max{\textunderscore}der,suma{\textunderscore}der+suma{\textunderscore}izq)\;
-		\caption{MaxSubArrayDC(A[0,...,n-1],bajo,alto)}
-	\end{algorithm}
-	\newpage
-	\begin{algorithm}[H]
-		\KwData{Entrada: A[0,...,n-1]}
-		\KwResult{Retorna la suma y los indices del mayor sub arreglo, que se puede obtener dentro del arreglo A}
-		sumaMaxima=$-\infty$\;
-		indiceIzquierdo = 0\;
-		indiceDerecho = 0\;
-		\For{$i\gets 0\   \KwTo\   n$}{
-			sumaLocal=0\;
-			\For{$j\gets i\   \KwTo\   n$}{
-				sumaLocal+=A[j]\;
-				\If{sumaLocal$>$sumaMaxima}{
-					sumaMaxima = sumaLocal\;
-					indiceIzquierdo=i\;
-					indiceDerecho=j\;
-				}			
-			}
-		}
-		return(sumaMaxima,indiceIzquierdo,indiceDerecho)\;
-		\caption{FuerzaBruta(A[0,...,n-1])}
-	\end{algorithm}
+		\end{algorithm}				
+		\subsection{Algoritmos de Kruskal}			
+			El algoritmo de Kruskal es un algoritmo de la teoría de grafos para encontrar un árbol recubridor mínimo en un grafo conexo y ponderado. Es decir, busca un subconjunto de aristas que, formando un árbol, incluyen todos los vértices y donde el valor de la suma de todas las aristas del árbol es el mínimo. Si el grafo no es conexo, entonces busca un bosque expandido mínimo (un árbol expandido mínimo para cada componente conexa).[6]\\ 
+			Kruskal funciona de la siguiente forma:\\
+			\begin{enumerate}
+				\item     Se selecciona, de entre todas las aristas restantes, la de menor peso siempre que no cree ningún ciclo.
+				\item Se repite el paso 1 hasta que se hayan seleccionado $\|V\| - 1$ aristas.[7]
+			\end{enumerate}
+			\begin{algorithm}[H]
+				\KwData{Entrada: G (un grafo)}
+				\KwResult{Retorna el arbol de extencion minima}
+				\ForEach{v \KwTo V[G]}{
+					Z = union\_find(C[v]\KwTo {v})\;
+				}
+				Q = priority\_queue(A[G])\;
+				T = new Tree()\;
+				\While{ A[T] $\leq$ n-1 and !Q.empty()}{
+					(u,v) \KwTo Q.sacarMin();
+					\If{C(v) $\neq$ C(u)}{
+						T.push((u,v))\;
+						Merge(C(v), C(u))\;
+					}
+				}
+				return T\;
+			\end{algorithm}	
+			Su complejidad es $O(mlog_2(n))$[8], donde m es el numero de aristas y n el numero de nodos.
 	\section{Experimentacion y Resultados}
 	\subsection{Implementar el algoritmo de codificacion de Huffman.}
 	Para esta primera parte de pruebas se implemento el algoritmo de codificacion y decodificacion de Huffman, asi que la ejecución se divide en 2 partes, la compresion de una cadena de texto y para la segunda parte la descompresion de la misma
@@ -483,6 +439,11 @@
 	Finalmente para concluir este algorimo, se realizo una modificacion al codigo para generar una cadena aleatoria de longitud "$n$", con (1$\leq n\leq 10000$), posteriormente a esta se le genero el arbol, se comprimio y descomprimio, para poder obtener la grafica de complejidad de los algorimos de compresion y descompresion de Huffman.
 	\begin{figure}[H]
 		\centering
+		\includegraphics[width=400px,height=300px]{captura47}
+		\caption{Ejecucion del programa generando cadenas aleatorias, comprimiendolas y descomprimiendolas}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
 		\includegraphics[width=400px,height=300px]{grafica1}
 		\caption{N contra operaciones de la generacion del arbol de Huffman}
 	\end{figure}
@@ -528,20 +489,98 @@
 	\end{figure}
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=400px,height=300px]{grafica7}
+		\includegraphics[width=400px,height=300px]{grafica10}
 		\caption{N contra operaciones comparando la generacion del arbol de Huffman, la compresion de datos y la descompresion de los datos}
+	\end{figure}
+	Para realizar la comparacion correspondiente, se realiza el calculo de complejidad a priori usando el analisis linea a linea del pseudo codigo.
+	primero la funcion \textbf{HuffmanTree(C)}
+	\begin{center}
+		\begin{table}[H]
+			\begin{tabular}{|l|l|l|}
+				\hline
+				\rowcolor[HTML]{FFCC67} 
+				Codigo                           & Costo & Veces ejecutado \\ \hline
+				\textit{n = C.size()}                    & $\O(1)$    & 1               \\ \hline
+				\textit{Q=priority\_queue()}                    & $\O(1)$    & 1               \\ \hline
+				\textit{for(i=0;i$\leq$n;i++)} & $\O(n)$    & $n$+1             \\ \hline
+				\textit{\  \  n=node(C[i])}                 & $\O(1)$    & $n$               \\ \hline
+				\textit{\  \  Q.push(n)}                     & $\O(log_2(n-i))$    & $n$              \\ \hline
+				\textit{while(Q.size()$>$1)} & $\O(log_2(n))$    & $log_2(n)+1$             \\ \hline
+				\textit{\  \  z = new node()}                     & $\O(1)$    & $log_2(n)$               \\ \hline
+				\textit{\  \  z.left = x = Q.pop()}                     & $\O(log_2(n))$    & $log_2(n)$               \\ \hline
+				\textit{\  \  z.right = y = Q.pop()}                     & $\O(log_2(n))$    & $log_2(n)$               \\ \hline
+				\textit{\  \  z.frequency = x.frequency+y.frequency}                     & $\O(1)$    & $log_2(n)$               \\ \hline
+				\textit{\  \  Q.push(z)}                     & $\O(log_2(n))$    & $log_2(n)$               \\ \hline
+				\textit{return Q.pop()}                     & $\O(1)$    & $1$               \\ \hline
+			\end{tabular}
+		\end{table}										
+	\end{center}	
+	Como podemos observar la mayor complejidad se encuentra dentro de los ciclos, donde en el peor escenario llega a ser $\O(nlog_2(n))$, considerando lo anterior se grafica la funcion $f(x) = xlog_2(x)$ y se anexa la grafica para ser comparada con los resultados del programa.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=400px,height=300px]{grafica11}
+		\caption{Grafica de la funcion $f(x) = xlog_2(x)$  }
+	\end{figure}
+	Dada la grafica anterior, el analisis a posteriori y las graficas: Figure 62 y Figure 67, podemos concluir que la funcion para generar el arbol de Huffman tiene complejidad de $nlog_2(n)$\\
+	Ahora se realiza el calculo de complejidad de la funcion \textbf{HuffmanDecompression(tree, S)}
+	\begin{center}
+		\begin{table}[H]
+			\begin{tabular}{|l|l|l|}
+				\hline
+				\rowcolor[HTML]{FFCC67} 
+				Codigo                           & Costo & Veces ejecutado \\ \hline
+				\textit{n = S.length()}                    & $\O(1)$    & 1               \\ \hline
+				\textit{retorno=""}                    & $\O(1)$    & 1               \\ \hline
+				\textit{for(i=0;i$\leq$n;i++)} & $\O(n)$    & $n$+1             \\ \hline
+				\textit{\  \  actual=tree}                 & $\O(1)$    & $n$               \\ \hline
+				\textit{\  \  while(actual.left!=NULL and actual.right!=NULL)}                     & $\O(log_2(255))$    & $n$              \\ \hline
+				\textit{\  \  \  \  if(S[i] == '0')} & $\O(1)$    & $log_2(255)*n$             \\ \hline
+				\textit{\  \  \  \  \  \  actual = actual.left} & $\O(1)$    & $\frac{log_2(255)*n}{2}$             \\ \hline
+				\textit{\  \  \  \  else} & $\O(1)$    & $log_2(255)*n$             \\ \hline
+				\textit{\  \  \  \  \  \  actual = actual.right} & $\O(1)$    & $\frac{log_2(255)*n}{2}$             \\ \hline
+				\textit{\  \  \  \  i++} & $\O(1)$    & $log_2(255)*n$             \\ \hline
+				\textit{\  \  retorno+=actual.symbol} & $\O(1)$    & $n$             \\ \hline
+				\textit{return retorno} & $\O(1)$    & $1$             \\ \hline				
+			\end{tabular}
+		\end{table}										
+	\end{center}
+	Entonces despues de analizar la funcion, podemos concluir que la funcion tiene complejdad $\O(n)$ siendo n la cantidad de bits en la cadena a descomprimir.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=400px,height=300px]{grafica12}
+		\caption{Grafica de la funcion $f(x) = xlog_2(255)$  }
+	\end{figure}
+	Comparando la grafica de la funcion (Figure 73) y las graficas Figure 64, Figure 66, Figure 67, Figure 70, Figure 71, se verifica que la funcion tiene orden de complejidad lineal.
+	\subsection{Implementar los algoritmos de Kruskal}
+	Como ya conocemos la complejidad del algoritmo, no es necesario realizar el analisis a priori, por lo tanto graficamos directamente la complejidad $\O(mlog_2(n))$, considerando m = n.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=400px,height=300px]{grafica11}
+		\caption{Grafica de la funcion $f(x) = xlog_2(x)$  }
+	\end{figure}
+	Ahora realizamos la implementacion del algoritmo para calcular su complejidad a posteriori. Se generan arboles aleatorios de n nodos y n aristas, donde (1$\leq n\leq 10000$) y graficamos la correspondiente informacion para validar la proposicion de complejidad.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=400px,height=300px]{captura62}
+		\caption{Ejecucion del algoritmo programado}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=400px,height=300px]{grafica13}
+		\caption{Grafica de n contra operaciones del algoritmo de Kruskal}
 	\end{figure}
 	\section{Conclusiones}			
 	\subsection{Payán Téllez René}
-	Esta practica se me hizo particulamente interesante porque los algoritmos que se trataron, no fueron tan directos de implementar en un lenguaje de programación, sin mencionar que algunas graficas tuvieron muy pocos valores, debido a lo complicado que era generar mas, porque computacionalmente su complejidad es inmensa. De hecho tuve que cambiar algunas variables de int a long long int en el espacio de los contadores para que siguiera funcionando el contador sin desbordarse. Tambien vi lo interesante de un algoritmo como MostrarPerfectos que tiene una complejidad no polinomial, ya que aunque lo puedo programar tardaria horas en encontrar mas alla del perfecto 5 (de por si toma mas de 5 minutos hallar el perfecto 4) sin mencionar que le tomaria dias encontrar otros números. Tambien cuando estaba demostrando la complejidad del algoritmo recursivo de la secuencia de fibonacci, algunos nucleos del CPU de mi computadora se dispararon, lo cual fue una señal de lo complicado y tardado que se podia volver en N muy grandes.\\
+	Durante el desarrollo de esta practica hubo muchas cosas inesperadas, como el hecho de que por usar la STL no se pudo medir de forma eficiente la cantidad de operaciones, o que al momento de generar los archivos comprimidos, el metodo de encodeo de C/C++ los mantuvo relativamente del mismo tamaño que los originales. Tambien ocurrio que al momento de guardar el archivo comprimido y volverlo a leer sucedieron varios errores (se puede ver en los tamaños de los archivos), ya que se guardaba el caracter "EOF" o "End Of File", probocando que las funciones getfc dejaran de leer al momento de importar, esto sucedia ya que este caracter era uno posible por su codigo ascii (0x05), asi que se genero siempre que existiera la combinacion binaria "0000101". Aunque fue bastante interesar leer sobre el algoritmo de Kruskal, ya que es algo que estamos haciendo a mano en la clase de Metodos Cuantitativos para la Toma de Decisiones, entonces al menos con eso se que uno de sus usos en la vida real es el analisis de costos y resolucion del menor costo en un proyecto o menor tiempo, tambien sirve para encontrar la ruta critica. \\
 	\includegraphics[height=120px,width=120px]{Rene}
 	\section{Anexo}			
-	\subsection{Investigar el algoritmo de Karatsuba que permite obtener la multiplicación de enteros muy grandes}
-	\subsection{Resolver los siguientes problemas}
 	\section{Bibliografia}
 		{[}1{]}\url{http://www.lcc.uma.es/~av/Libro/CAP3.pdf}\\
 		{[}2{]}\url{https://medium.com/@joseguillermo_/qu\%C3\%A9-es-la-complejidad-algor\%C3\%ADtmica-y-con-qu\%C3\%A9-se-come-2638e7fd9e8c}\\
 		{[}3{]}\url{https://www.tamps.cinvestav.mx/~ertello/algorithms/sesion15.pdf	}\\		
 		{[}4{]}\url{http://elvex.ugr.es/decsai/algorithms/slides/4\%20greedy.pdf}\\		
-		{[}5{]}\url{https://riptutorial.com/es/algorithm/example/23995/codificacion-huffman}\\		
+		{[}5{]}\url{https://riptutorial.com/es/algorithm/example/23995/codificacion-huffman}\\	
+		{[}6{]}\url{https://es.wikipedia.org/wiki/Algoritmo_de_Kruskal}\\	
+		{[}7{]}\url{https://www.wextensible.com/temas/voraces/kruskal-prim.html}\\	
+		{[}8{]}\url{https://www.ecured.cu/Algoritmo_de_Kruskal}\\		
 	\end{document}
